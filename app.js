@@ -50,7 +50,7 @@ const engineerQuestion = [
     {
         type: "input",
         message: "What is your GitHub username?",
-        name: "githubname"
+        name: "gitname"
     }
 
 ];
@@ -145,11 +145,31 @@ async function buildManager(){
 }
 
 async function buildEngineer(){
-    
+    await Inquirer
+    .prompt(engineerQuestion)
+
+    .then(async function (userData){
+        let engineerInfo = {
+             'gitname': userData.gitname
+        }
+        employeeInfo[0].gitname = engineerInfo.gitname;
+        console.log(employeeInfo)
+    })
+const engineer = new Engineer(name, id, role, email, gitname)
 }
 
 async function buildIntern(){
-    
+    await Inquirer
+    .prompt(internQuestion)
+
+    .then(async function (userData){
+        let internInfo = {
+             'school': userData.school
+        }
+        employeeInfo[0].school = internInfo.school;
+        console.log(employeeInfo)
+    })
+const intern = new Intern(name, id, role, email, school)
 }
 
 
