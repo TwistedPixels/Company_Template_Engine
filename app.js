@@ -6,7 +6,7 @@ const Intern = require('./lib/intern');
 const Inquirer = require ("inquirer");
 const Jest = require ('jest');
 
-
+const employeeArr = [];
 const employeeInfo = [];
 
 const questions = [
@@ -76,7 +76,7 @@ async function init(userInfo) {
                  'email': userData.email,
                  'role' : 'employee', //default setting
                  'title': userData.title,
-                 'officenumber': '',
+                 'officeNumber': '',
                  'gitname' : '',
                  'school': ''
             }
@@ -123,24 +123,24 @@ async function bytitle(input){
 };
 
 async function buildManager(){
-    // console.log(employeeprofile + " in buildManager")
+
     await Inquirer
     .prompt(managerQuestion)
 
     .then(async function (userData){
         let managerInfo = {
-             'officenumber': JSON.parse(userData.officeNumber)
+             'officeNumber': JSON.parse(userData.officeNumber)
         }
-        employeeInfo[0].officenumber = managerInfo.officenumber;
+        employeeInfo[0].officeNumber = managerInfo.officeNumber;
         console.log(employeeInfo)
     })
     const name = employeeInfo[0].name;
     const id = employeeInfo[0].id;
     const email = employeeInfo[0].email;
     const role = employeeInfo[0].title;
-    const officenumber = employeeInfo[0].officenumber;
+    const officeNumber = employeeInfo[0].officeNumber;
     
-    const manager = new Manager(name, id, role, email, officenumber)
+    const manager = new Manager(name, id, role, email, officeNumber)
     console.log(manager)
 }
 
