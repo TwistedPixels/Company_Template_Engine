@@ -1,18 +1,37 @@
+//Required constructors
 const Employee = require('./lib/employee');
 const Manager = require('./lib/manager');
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
-
+//Required NPMs
+const axios = require('axios');
 const Inquirer = require ("inquirer");
 const Jest = require ('jest');
-
-const employeeArr = [];
+//Initial arrays
+const managerArr = [];
+const engineerArr = [];
+const internArr = [];
 const employeeInfo = [];
+//Document values
 
-const questions = [
+
+//Document questions
+const adminChoices = [
+    {
+        type: "list",
+        message: "Would you like to:",
+        name: "adminchoice",
+        choices: [
+            'Add an employee to the team?',
+            'Create the team HTML page?'
+        ]
+    }
+]
+
+const adminQuestions = [
     {
         type: "input",
-        message: "What is your name?",
+        message: "Hello manager, what is your name?",
         name: "name"
     },
     {
@@ -26,11 +45,37 @@ const questions = [
         name: "email"
     },
     {
+        type: "confirm",
+        message: "Are you a manager?",
+        name: "position",
+        choices: [
+            'Yes',
+            'No'
+        ]
+    }
+];
+
+const questions = [
+    {
+        type: "input",
+        message: "What is the employee's name?",
+        name: "name"
+    },
+    {
+        type: "input",
+        message: "What is the employee's id?",
+        name: "id"
+    },
+    {
+        type: "input",
+        message: "What is the employee's email?",
+        name: "email"
+    },
+    {
         type: "list",
-        message: "What is your title?",
+        message: "What is the employee's title?",
         name: "title",
         choices: [
-            'manager',
             'engineer',
             'intern'
         ]
@@ -49,7 +94,7 @@ const managerQuestion = [
 const engineerQuestion = [
     {
         type: "input",
-        message: "What is your GitHub username?",
+        message: "What is the employee's username?",
         name: "gitname"
     }
 
@@ -58,15 +103,61 @@ const engineerQuestion = [
 const internQuestion = [
     {
         type: "input",
-        message: "What school do you go to?",
+        message: "What school did the employee go to?",
         name: "school"
     }
 
 ];
 
+let start =
+async function adminStart() {
+
+   await Inquirer
+    .prompt(adminQuestions)
+
+    .then(async function (userData){
+        let managerInfo = {
+            'name': userData.name,
+            'id': JSON.parse(userData.id),
+            'email': userData.email,
+            'role' : 'employee', //default setting
+            'title': 'manager',
+            'officeNumber': '',
+            'gitname' : '',
+            'GitHub' : '',
+            'school': ''
+
+       }
+        if (position = true){
+            employeeInfo.push(managerInfo)
+            newemp()
+        }
+    })
+}
+
+let next =
+async function adminNext(){
+        await Inquirer
+        .prompt(adminChoices)
+        .then(async function (userData){
+            if (userData.adminChoice = 'Add an employee to the team?'){
+                input()
+            }
+            if (userData.adminChoice = 'Create the team HTML page?'){
+                createteam()
+            }  
+        })
+};
+
+function reset(){
+    employeeInfo.length = 0;
+    next()
+}
+
 let input =
-async function init(userInfo) {
-    const idle = await Inquirer
+async function init() {
+        // employeeInfo = [];
+        await Inquirer
         .prompt(questions)
 
         .then(async function (userData){
@@ -78,14 +169,13 @@ async function init(userInfo) {
                  'title': userData.title,
                  'officeNumber': '',
                  'gitname' : '',
+                 'GitHub' : '',
                  'school': ''
             }
-            // console.log(userInfo)
             employeeInfo.push(userInfo)
-            // console.log(employeeInfo)
-            return userInfo
+            newemp()
         })
-newemp()
+
 };
 
 let newemp = 
@@ -97,28 +187,20 @@ async function employeeprofile(){
 
     const employee = new Employee(name, id, email, role)
     console.log(employee)
-    classdir(employee)
-    // return employee
-
+    classdir()
 };
 
 let classdir = 
-async function bytitle(input){
+async function bytitle(){
 
         if (employeeInfo[0].title === "manager"){
-        console.log("you're a manager")
         buildManager()
-
         }
         if (employeeInfo[0].title === "engineer"){
-        console.log("you're an engineer")
         buildEngineer()
-            const engineer = new Engineer(employeeInfo)
         }
         if (employeeInfo[0].title === "intern"){
-        console.log("you're an intern")
         buildIntern()
-            const intern = new Intern(employeeInfo)
         }
 };
 
@@ -128,35 +210,53 @@ async function buildManager(){
     .prompt(managerQuestion)
 
     .then(async function (userData){
-        let managerInfo = {
+        let managerAns = {
              'officeNumber': JSON.parse(userData.officeNumber)
         }
-        employeeInfo[0].officeNumber = managerInfo.officeNumber;
-        console.log(employeeInfo)
-    })
-    const name = employeeInfo[0].name;
-    const id = employeeInfo[0].id;
-    const email = employeeInfo[0].email;
-    const role = employeeInfo[0].title;
-    const officeNumber = employeeInfo[0].officeNumber;
-    
-    const manager = new Manager(name, id, role, email, officeNumber)
-    console.log(manager)
-}
+
+        employeeInfo[0].officeNumber = managerAns.officeNumber;
+
+    })   
+
+    const manager = new Manager()
+
+    managerArr.push(manager)
+    // employeeInfo = [];
+    reset()
+};
 
 async function buildEngineer(){
     await Inquirer
     .prompt(engineerQuestion)
 
-    .then(async function (userData){
-        let engineerInfo = {
-             'gitname': userData.gitname
-        }
-        employeeInfo[0].gitname = engineerInfo.gitname;
-        console.log(employeeInfo)
-    })
-const engineer = new Engineer(name, id, role, email, gitname)
-}
+        .then(async function (userData){
+            let engineerInfo = {
+            'gitname': userData.gitname
+            }
+            employeeInfo[0].gitname = engineerInfo.gitname;
+        })  
+            .then(async function (userData) { 
+
+                const gitname = employeeInfo[0].gitname;
+                let queryURL = 'https://api.github.com/users/' + gitname;
+                axios
+                    .get(queryURL).then(async function (response) {
+
+                        const engineerInfo = {
+                            "username": response.data.name,
+                            "GitHub": response.data.html_url,
+                        }
+                        employeeInfo[0].GitHub = engineerInfo.GitHub;
+
+                        console.log(employeeInfo)
+                    })
+            })
+   
+const engineer = new Engineer()
+engineerArr.push(engineer)
+
+reset()
+};
 
 async function buildIntern(){
     await Inquirer
@@ -169,12 +269,18 @@ async function buildIntern(){
         employeeInfo[0].school = internInfo.school;
         console.log(employeeInfo)
     })
-const intern = new Intern(name, id, role, email, school)
+const intern = new Intern();
+internArr.push(intern)
+
+reset()
+};
+
+createteam = 
+async function teamHTML(){
+    
+
 }
 
 
 
-input()
-
-
-module.exports = newemp;
+start()
