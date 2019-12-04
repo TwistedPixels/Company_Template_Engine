@@ -5,8 +5,10 @@ const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
 //Required NPMs
 const axios = require('axios');
-const Inquirer = require ("inquirer");
-const Jest = require ('jest');
+const Inquirer = require("inquirer");
+const Jest = require('jest');
+const htmlCreator = require('html-creator');
+const path = require('path');
 //Initial arrays
 const managerArr = [];
 const engineerArr = [];
@@ -139,11 +141,14 @@ let next =
 async function adminNext(){
         await Inquirer
         .prompt(adminChoices)
-        .then(async function (userData){
-            if (userData.adminChoice = 'Add an employee to the team?'){
+        // console.log(adminchoice)
+        .then(async function (answers){
+
+            console.log(answers.adminchoice)
+            if (answers.adminchoice === 'Add an employee to the team?'){
                 input()
             }
-            if (userData.adminChoice = 'Create the team HTML page?'){
+            if (answers.adminchoice === 'Create the team HTML page?'){
                 createteam()
             }  
         })
@@ -221,7 +226,6 @@ async function buildManager(){
     const manager = new Manager()
 
     managerArr.push(manager)
-    // employeeInfo = [];
     reset()
 };
 
@@ -247,7 +251,6 @@ async function buildEngineer(){
                             "GitHub": response.data.html_url,
                         }
                         employeeInfo[0].GitHub = engineerInfo.GitHub;
-
                         console.log(employeeInfo)
                     })
             })
@@ -277,7 +280,39 @@ reset()
 
 createteam = 
 async function teamHTML(){
-    
+
+    const html = new htmlCreator([
+        {
+            type: 'head',
+            content: [  { type: 'link', 
+                        attributes:  { rel: 'stylesheet', href: 'style.css', type: 'text/css'},    
+                        },
+                        { type: 'title', content: 'Team Page' }]
+        },
+        {
+            type: 'body',
+            attributes: { style: 'padding: 1rem' },
+            content: [
+                {
+                    type: 'div',
+                    content: [
+                        {
+                            type: 'span',
+                            content: 'A Button Span Deluxe',
+                            attributes: { className: 'button' },
+                        },
+                        {
+                            type: 'a',
+                            content: 'Click here',
+                            attributes: { href: '/path-to-infinity', target: '_blank' },
+                        },
+                    ],
+                },
+            ],
+        },
+    ]);
+     
+    html.renderHTMLToFile(path.join(__dirname + '/output/teampage.html'));
 
 }
 
