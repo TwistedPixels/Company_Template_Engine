@@ -9,6 +9,7 @@ const Inquirer = require("inquirer");
 const Jest = require('jest');
 const htmlCreator = require('html-creator');
 const path = require('path');
+const fs = require('fs');
 //Initial arrays
 const managerArr = [];
 const engineerArr = [];
@@ -279,40 +280,54 @@ reset()
 };
 
 createteam = 
-async function teamHTML(){
+function teamHTML(){
 
-    const html = new htmlCreator([
-        {
-            type: 'head',
-            content: [  { type: 'link', 
-                        attributes:  { rel: 'stylesheet', href: 'style.css', type: 'text/css'},    
-                        },
-                        { type: 'title', content: 'Team Page' }]
-        },
-        {
-            type: 'body',
-            attributes: { style: 'padding: 1rem' },
-            content: [
-                {
-                    type: 'div',
-                    content: [
-                        {
-                            type: 'span',
-                            content: 'A Button Span Deluxe',
-                            attributes: { className: 'button' },
-                        },
-                        {
-                            type: 'a',
-                            content: 'Click here',
-                            attributes: { href: '/path-to-infinity', target: '_blank' },
-                        },
-                    ],
-                },
-            ],
-        },
-    ]);
+    fs.writeFileSync('./output/team.html',
+    '<DOCTYPE! HTML>' +
+        '<head>' +
+            '<meta charset="UTF-8">' +
+            '<link rel="stylesheet" type="text/css" href="styles.css">' +
+        '</head>' +
+        '<body>' +
+            '<header>' +
+                '<h1>' + 'Company Roster' + '</h1>' +
+            '</header>'
+);
+
+    // document.open('/templates/main.html')
+
+    // const html = new htmlCreator([
+    //     {
+    //         type: 'head',
+    //         content: [  { type: 'link', 
+    //                     attributes:  { rel: 'stylesheet', href: 'style.css', type: 'text/css'},    
+    //                     },
+    //                     { type: 'title', content: 'Team Page' }]
+    //     },
+    //     {
+    //         type: 'body',
+    //         attributes: { style: 'padding: 1rem' },
+    //         content: [
+    //             {
+    //                 type: 'div',
+    //                 content: [
+    //                     {
+    //                         type: 'span',
+    //                         content: 'A Button Span Deluxe',
+    //                         attributes: { className: 'button' },
+    //                     },
+    //                     {
+    //                         type: 'a',
+    //                         content: 'Click here',
+    //                         attributes: { href: '/path-to-infinity', target: '_blank' },
+    //                     },
+    //                 ],
+    //             },
+    //         ],
+    //     },
+    // ]);
      
-    html.renderHTMLToFile(path.join(__dirname + '/output/teampage.html'));
+    // html.renderHTMLToFile(path.join(__dirname + '/output/teampage.html'));
 
 }
 
