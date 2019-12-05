@@ -180,10 +180,9 @@ let newemp =
         const name = employeeInfo[0].name;
         const id = employeeInfo[0].id;
         const email = employeeInfo[0].email;
-        const role = employeeInfo[0].role
+        const role = employeeInfo[0].role;
 
         const employee = new Employee(name, id, email, role)
-        console.log(employee)
         classdir()
     };
 
@@ -217,13 +216,12 @@ async function buildManager() {
             const email = employeeInfo[0].email;
             const role = employeeInfo[0].role;
             const officeNumber = employeeInfo[0].officeNumber;
-            console.log(officeNumber)
         
             const manager = new Manager(name, id, email, officeNumber)
             managerArr.push(manager);
 
         })
-    // console.log(manager)
+
     next()
 };
 
@@ -286,8 +284,7 @@ async function buildIntern() {
 
 createteam =
     async function teamHTML() {
-        console.log(internArr[0])
-        console.log(engineerArr[0])
+
 
         fs.writeFileSync('./output/teampage.html',
             '<DOCTYPE! HTML>' +
