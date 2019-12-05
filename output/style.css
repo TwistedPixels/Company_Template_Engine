@@ -1,16 +1,32 @@
 header {
-    padding-bottom: 2rem;
-    text-align: center;
+    vertical-align: middle;
+    height: 5rem;
+    text-align:center;
     color: white;
-    background-color: gray;
+    background-color: blue;
+}
+
+.container {
+    margin: 2rem 2rem 2rem 2rem;
 }
 
 .card {
-    width: 100px;
-    padding: 1rem 2rem 1rem 2rem;
+    margin: 1rem 1rem 1rem 1rem;
+    text-align: center;
+    width: 15rem;
+    height: 25rem;
+    background-color: cyan;
 }
 
-ul {
-    text-decoration: none;
+.card-header, .card-footer {
+    padding: 1rem 1rem 1rem 1rem;
+    color: white;
+    background-color: blue;
+}
+
+.content {
+    background-color: white;
+    margin: 1rem 1rem 1rem 1rem;
     list-style-type: none;
 }
+

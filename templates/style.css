@@ -19,7 +19,7 @@ header {
 }
 .card-header, .card-footer{
     color: white;
-    background-color: rgb(76, 76, 207);
+    background-color: blue;
 }
 
 .content {
