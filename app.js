@@ -7,7 +7,6 @@ const Intern = require('./lib/intern');
 const axios = require('axios');
 const Inquirer = require("inquirer");
 const Jest = require('jest');
-const htmlCreator = require('html-creator');
 const path = require('path');
 const fs = require('fs');
 //Initial arrays
@@ -127,7 +126,7 @@ let start =
                     'title': 'manager',
                     'officeNumber': '',
                     'gitname': '',
-                    'GitHub': '',
+                    'github': '',
                     'school': ''
 
                 }
@@ -167,7 +166,7 @@ let input =
                     'title': userData.title,
                     'officeNumber': '',
                     'gitname': '',
-                    'GitHub': '',
+                    'github': '',
                     'school': ''
                 }
                 employeeInfo.push(userInfo)
@@ -235,30 +234,34 @@ async function buildEngineer() {
             }
             employeeInfo[0].gitname = engineerInfo.gitname;
         })
-        .then(async function (userData) {
+        .then(async function() {
 
             const gitname = employeeInfo[0].gitname;
             let queryURL = 'https://api.github.com/users/' + gitname;
             axios
                 .get(queryURL).then(async function (response) {
-
                     const engineerInfo = {
-                        "username": response.data.name,
-                        "GitHub": response.data.html_url,
+                        "github": response.data.login,
                     }
-                    employeeInfo[0].GitHub = engineerInfo.GitHub;
-                    employeeInfo[0].gitname = engineerInfo.gitname;
+        
+                    employeeInfo[0].github = engineerInfo.github;
+                    
                 })
         })
-        const name = employeeInfo[0].name;
-        const id = employeeInfo[0].id;
-        const email = employeeInfo[0].email;
-        const role = employeeInfo[0].role;
-        const gitname = employeeInfo[0].gitname;
-
-    const engineer = new Engineer(name, id, email, gitname)
-    engineerArr.push(engineer)
-    next()
+                        setTimeout(function(){
+                        const name = employeeInfo[0].name;
+                        const id = employeeInfo[0].id;
+                        const email = employeeInfo[0].email;
+                        const role = employeeInfo[0].role;
+                        const gitname = employeeInfo[0].gitname;
+                        const github = employeeInfo[0].github;
+                    
+                        const engineer = new Engineer(name, id, email, gitname, github)
+             
+                        engineerArr.push(engineer)
+                        }, 2000);
+                    
+next()
 };
 
 async function buildIntern() {
@@ -319,7 +322,6 @@ createteam =
                     '</div>' +
                 '</div>' +
             '<div class="card-footer bg-info">' + "Manager" + '</div>' +
-            '</div>' +
             '</div>' +
             '</div>'
         );

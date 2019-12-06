@@ -9,7 +9,7 @@ The Company Template Generator creates a command-line application that allows a 
 
 https://github.com/TwistedPixels/Company_Template_Engine.git
 
-https://twistedpixels.github.io/Company_Template_Engine/
+
 
 # Usage
  Web application
